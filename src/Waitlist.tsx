@@ -138,24 +138,15 @@ const Waitlist: React.FC<WaitlistProps> = ({
       <h2
         className="text-center text-3xl font-medium mb-8"
         style={
-          titleColor
+          titleColor && titleColor.includes("gradient")
             ? {
-                background: titleColor.includes("gradient")
-                  ? titleColor
-                  : undefined,
-                color: titleColor.includes("gradient")
-                  ? "transparent"
-                  : titleColor,
-                WebkitBackgroundClip: titleColor.includes("gradient")
-                  ? "text"
-                  : undefined,
-                backgroundClip: titleColor.includes("gradient")
-                  ? "text"
-                  : undefined,
-                WebkitTextFillColor: titleColor.includes("gradient")
-                  ? "transparent"
-                  : undefined,
+                backgroundImage: titleColor,
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
               }
+            : titleColor
+            ? { color: titleColor }
             : {}
         }
       >

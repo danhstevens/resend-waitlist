@@ -18,7 +18,6 @@
     }
   },
   "scripts": {
-    "dev": "vite",
     "build:js": "tsup",
     "build:css": "tailwindcss -c tailwind.config.js -i ./src/tailwind.css -o ./src/compiled.css --minify",
     "build": "pnpm build:css && pnpm build:js",
