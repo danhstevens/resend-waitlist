@@ -41,6 +41,7 @@ const Waitlist: React.FC<WaitlistProps> = ({
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [formSubmitted, setFormSubmitted] = useState(false);
 
   const isDark = mode === "dark";
 
@@ -55,7 +56,13 @@ const Waitlist: React.FC<WaitlistProps> = ({
     : !isValidEmail(email);
 
   const handleSubmit = async () => {
+    setFormSubmitted(true);
     setError("");
+
+    if (!isValidEmail(email)) {
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -71,7 +78,6 @@ const Waitlist: React.FC<WaitlistProps> = ({
         }
       }
 
-      // Make the POST request to Resend
       const response = await onSubmit({
         email,
         fullName: showNameField ? fullName : undefined,
@@ -116,11 +122,17 @@ const Waitlist: React.FC<WaitlistProps> = ({
   }
 
   return (
-    <div
+    <form
       className={`
         ${isDark ? "bg-zinc-900 text-zinc-100" : "bg-white text-gray-800"}
         p-6 rounded-md shadow-md max-w-sm mx-auto
       `}
+      onSubmit={(e) => {
+        e.preventDefault();
+        if (!buttonDisabled) {
+          handleSubmit();
+        }
+      }}
     >
       {/* Title */}
       <h2
@@ -232,7 +244,7 @@ const Waitlist: React.FC<WaitlistProps> = ({
           />
         </div>
         {/* Email error message */}
-        {!isValidEmail(email) && email.trim().length > 0 && (
+        {formSubmitted && !isValidEmail(email) && email.trim().length > 0 && (
           <p className="text-red-500 text-xs mt-1">
             Please enter a valid email address.
           </p>
@@ -244,8 +256,8 @@ const Waitlist: React.FC<WaitlistProps> = ({
 
       {/* Button */}
       <button
+        type="submit"
         disabled={buttonDisabled || loading}
-        onClick={handleSubmit}
         className={`w-full py-2 px-4 flex items-center justify-center rounded-md font-light text-sm mt-2 ${
           isDark ? "bg-zinc-800" : "bg-zinc-100"
         }
@@ -288,7 +300,7 @@ const Waitlist: React.FC<WaitlistProps> = ({
           </>
         )}
       </button>
-    </div>
+    </form>
   );
 };
 
