@@ -11,12 +11,14 @@ interface WaitlistProps {
    * e.g. "linear-gradient(to right, #7928CA, #FF0080)"
    */
   titleColor?: string;
+  /** Optional subtitle */
+  subtitle: string;
   /** Whether to show the "Full Name" field */
   showNameField?: boolean;
-  /** Success message headline */
-  successHeadline?: string;
-  /** Success message subtext */
-  successSubtext?: string;
+  /** Success message title */
+  successTitle?: string;
+  /** Success message subtitle */
+  successSubtitle?: string;
   /** Whether to reject disposable email addresses */
   rejectDisposable?: boolean;
   /** Handler function for when the form is submitted */
@@ -30,9 +32,10 @@ const Waitlist: React.FC<WaitlistProps> = ({
   mode = "light",
   title = "Join our waitlist!",
   titleColor,
+  subtitle,
   showNameField = true,
-  successHeadline = "You've been added to the waitlist!",
-  successSubtext = "We'll let you know when we're ready.",
+  successTitle = "You've been added to the waitlist!",
+  successSubtitle = "We'll let you know when we're ready.",
   rejectDisposable = true,
   onSubmit,
 }) => {
@@ -114,8 +117,8 @@ const Waitlist: React.FC<WaitlistProps> = ({
               d="M5 13l4 4L19 7"
             />
           </svg>
-          <h2 className="text-xl font-bold mb-2">{successHeadline}</h2>
-          <p className="text-sm">{successSubtext}</p>
+          <h2 className="text-xl font-bold mb-2">{successTitle}</h2>
+          <p className="text-sm">{successSubtitle}</p>
         </div>
       </div>
     );
@@ -136,7 +139,7 @@ const Waitlist: React.FC<WaitlistProps> = ({
     >
       {/* Title */}
       <h2
-        className="text-center text-3xl font-medium mb-8"
+        className="text-center text-3xl font-medium mb-2"
         style={
           titleColor && titleColor.includes("gradient")
             ? {
@@ -152,6 +155,9 @@ const Waitlist: React.FC<WaitlistProps> = ({
       >
         {title}
       </h2>
+
+      {/* Subtitle */}
+      {subtitle && <p className="text-center mb-6 leading-snug">{subtitle}</p>}
 
       {/* Full Name field (optional) */}
       {showNameField && (
