@@ -4,6 +4,10 @@
   "description": "A Waitlist component that integrates with the Resend API.",
   "author": "Dan Stevens",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/danhstevens/resend-waitlist.git"
+  },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
@@ -20,9 +24,8 @@
   "scripts": {
     "build:js": "tsup",
     "build:css": "tailwindcss -c tailwind.config.js -i ./src/tailwind.css -o ./src/compiled.css --minify",
-    "build": "pnpm build:css && pnpm build:js",
-    "prepare": "pnpm build",
-    "test": "vitest --run"
+    "build": "npm run build:css && npm run build:js",
+    "prepare": "npm run build"
   },
   "dependencies": {
     "@upstash/ratelimit": "^2.0.5",
