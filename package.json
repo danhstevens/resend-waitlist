@@ -24,8 +24,7 @@
   "scripts": {
     "build:js": "tsup",
     "build:css": "tailwindcss -c tailwind.config.js -i ./src/tailwind.css -o ./src/compiled.css --minify",
-    "build": "npm run build:css && npm run build:js",
-    "prepare": "npm run build"
+    "build": "pnpm build:css && pnpm build:js"
   },
   "dependencies": {
     "@upstash/ratelimit": "^2.0.5",
