@@ -18,10 +18,10 @@ var ResendWaitlist = class {
       });
     }
   }
-  async addToWaitlist(email, fullName) {
+  async addToWaitlist(email, fullName, ip) {
     try {
-      if (this.rateLimiter) {
-        const { success } = await this.rateLimiter.limit("waitlist");
+      if (this.rateLimiter && ip) {
+        const { success } = await this.rateLimiter.limit(ip);
         if (!success) {
           return { success: false, error: "Woah, slow down there buddy! Rate limit exceeded." };
         }

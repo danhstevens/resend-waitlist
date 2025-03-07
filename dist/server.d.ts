@@ -13,7 +13,7 @@ declare class ResendWaitlist {
     audienceId: string;
     rateLimiter?: Ratelimit;
     constructor({ apiKey, audienceId, upstashUrl, upstashToken, ratePerMinute }: ResendWaitlistProps);
-    addToWaitlist(email: string, fullName?: string): Promise<{
+    addToWaitlist(email: string, fullName?: string, ip?: string): Promise<{
         success: boolean;
         error: string;
     } | {

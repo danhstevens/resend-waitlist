@@ -31,10 +31,10 @@ export class ResendWaitlist {
     }
   }
 
-  async addToWaitlist(email: string, fullName?: string) {
+  async addToWaitlist(email: string, fullName?: string, ip?: string) {
     try {
-      if (this.rateLimiter) {
-        const { success } = await this.rateLimiter.limit("waitlist");
+      if (this.rateLimiter && ip) {
+        const { success } = await this.rateLimiter.limit(ip);
         if (!success) {
           return { success: false, error: "Woah, slow down there buddy! Rate limit exceeded." };
         }
