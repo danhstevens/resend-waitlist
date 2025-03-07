@@ -21,10 +21,12 @@
       "require": "./dist/server.cjs"
     }
   },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build:js": "tsup",
-    "build:css": "tailwindcss -c tailwind.config.js -i ./src/tailwind.css -o ./src/compiled.css --minify",
-    "build": "pnpm build:css && pnpm build:js"
+    "build:css": "tailwindcss -c tailwind.config.js -i ./src/tailwind.css -o ./src/compiled.css --minify"
   },
   "dependencies": {
     "@upstash/ratelimit": "^2.0.5",
