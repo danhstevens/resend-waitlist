@@ -25,7 +25,7 @@ interface WaitlistProps {
   onSubmit: (data: {
     email: string;
     fullName?: string;
-  }) => Promise<void> | void;
+  }) => Promise<{ success: boolean; error?: string }>;
 }
 
 const Waitlist: React.FC<WaitlistProps> = ({
@@ -85,6 +85,13 @@ const Waitlist: React.FC<WaitlistProps> = ({
         email,
         fullName: showNameField ? fullName : undefined,
       });
+      if (!response.success) {
+        setError(
+          response.error ||
+            "Could not add your email to the waitlist. Please try again."
+        );
+        return;
+      }
 
       setSuccess(true);
     } catch (err) {

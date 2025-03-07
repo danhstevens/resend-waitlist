@@ -32,19 +32,29 @@ export class ResendWaitlist {
   }
 
   async addToWaitlist(email: string, fullName?: string) {
-    if (this.rateLimiter) {
-      const { success, limit, remaining, pending } = await this.rateLimiter.limit("waitlist");
-      if (!success) {
-        throw new Error(`Woah, slow down there buddy! Rate limit exceeded.`);
+    try {
+      if (this.rateLimiter) {
+        const { success } = await this.rateLimiter.limit("waitlist");
+        if (!success) {
+          return { success: false, error: "Woah, slow down there buddy! Rate limit exceeded." };
+        }
       }
+
+      const nameParts = fullName?.trim().split(/\s+/);
+      const result = await this.resend.contacts.create({
+        email: email.trim().toLowerCase(),
+        firstName: nameParts?.[0],
+        lastName: nameParts?.[1] ? nameParts.slice(1).join(" ") : undefined,
+        audienceId: this.audienceId
+      });
+      if (result.error) {
+        return { success: false, error: result.error.message };
+      }
+    } catch (err) {
+      console.error(err); // unexpected error, log to the server for debugging
+      return { success: false, error: "Could not add your email to the waitlist. Please try again." };
     }
 
-    const nameParts = fullName?.trim().split(/\s+/);
-    return await this.resend.contacts.create({
-      email: email.trim().toLowerCase(),
-      firstName: nameParts?.[0],
-      lastName: nameParts?.[1] ? nameParts.slice(1).join(" ") : undefined,
-      audienceId: this.audienceId
-    });
+    return { success: true };
   }
 }
