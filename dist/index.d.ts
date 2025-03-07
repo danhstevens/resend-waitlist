@@ -24,7 +24,10 @@ interface WaitlistProps {
     onSubmit: (data: {
         email: string;
         fullName?: string;
-    }) => Promise<void> | void;
+    }) => Promise<{
+        success: boolean;
+        error?: string;
+    }>;
 }
 declare const Waitlist: React.FC<WaitlistProps>;
 
