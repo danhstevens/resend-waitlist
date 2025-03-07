@@ -98,7 +98,7 @@ const Waitlist: React.FC<WaitlistProps> = ({
 
   if (success) {
     return (
-      <div className="p-6 rounded-md shadow-md max-w-md min-w-[24rem] mx-auto w-full">
+      <div className="p-4 sm:p-6 rounded-md shadow-md max-w-md min-w-0 sm:min-w-[20rem] md:min-w-[24rem] mx-auto w-full">
         <div className="flex flex-col items-center text-center">
           {/* Success icon */}
           <svg
@@ -119,7 +119,7 @@ const Waitlist: React.FC<WaitlistProps> = ({
             <path d="M11 13c1.93 1.93 2.83 4.17 2 5-.83.83-3.07-.07-5-2-1.93-1.93-2.83-4.17-2-5 .83-.83 3.07.07 5 2Z" />
           </svg>
           <h2
-            className="text-4xl font-bold mb-2"
+            className="text-3xl sm:text-4xl font-bold mb-2"
             style={
               titleColor && titleColor.includes("gradient")
                 ? {
@@ -143,7 +143,7 @@ const Waitlist: React.FC<WaitlistProps> = ({
 
   return (
     <form
-      className="p-6 max-w-md min-w-[24rem] mx-auto w-full"
+      className="p-4 sm:p-6 max-w-md min-w-0 sm:min-w-[20rem] md:min-w-[24rem] mx-auto w-full"
       onSubmit={(e) => {
         e.preventDefault();
         if (!buttonDisabled) {
@@ -153,7 +153,7 @@ const Waitlist: React.FC<WaitlistProps> = ({
     >
       {/* Title */}
       <h2
-        className="text-center text-4xl font-medium mb-2"
+        className="text-center text-3xl sm:text-4xl font-medium mb-2"
         style={
           titleColor && titleColor.includes("gradient")
             ? {
@@ -177,7 +177,7 @@ const Waitlist: React.FC<WaitlistProps> = ({
       {showNameField && (
         <div className="mb-4">
           <div
-            className={`flex items-center rounded-md border px-2
+            className={`flex items-center rounded-md border px-1 sm:px-2
               ${
                 isDark
                   ? "border-zinc-700 bg-zinc-800"
@@ -219,7 +219,7 @@ const Waitlist: React.FC<WaitlistProps> = ({
       {/* Email field */}
       <div className="mb-4">
         <div
-          className={`flex items-center rounded-md border px-2
+          className={`flex items-center rounded-md border px-1 sm:px-2
             ${
               isDark
                 ? "border-zinc-700 bg-zinc-800"
@@ -269,7 +269,7 @@ const Waitlist: React.FC<WaitlistProps> = ({
       <button
         type="submit"
         disabled={buttonDisabled || loading}
-        className={`w-full py-2 px-4 flex items-center justify-center rounded-md font-light text-sm mt-2 ${
+        className={`w-full py-2 px-3 sm:px-4 flex items-center justify-center rounded-md font-light text-sm mt-2 ${
           isDark ? "bg-zinc-800" : "bg-zinc-100"
         }
           ${buttonDisabled || loading ? "opacity-50 cursor-not-allowed" : ""}
