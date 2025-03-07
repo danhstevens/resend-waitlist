@@ -30,6 +30,7 @@ pnpm add https://github.com/danhstevens/resend-waitlist.git
 - Sign up for [Resend](https://resend.com/).
 - Retrieve your API key (e.g. re_abc123).
 - Retrieve your [Audience ID](https://resend.com/audiences)
+- Optionally, to add ratelimiting, sign up for [Upstash](https://upstash.com/) and generate an Upstash URL and Token
 
 ## Usage
 
@@ -43,8 +44,11 @@ import { yourServerSideAction } from "@/app/actions"; // For Next.JS projects, d
 
 const handleSubmit = async (data: { email: string; fullName?: string }) => {
   const { email, fullName } = data;
-
-  await yourServerSideAction(email, fullName);
+  const result = await yourServerSideAction(email, fullName);
+  if (!result.success) {
+    return { success: false, error: result.error };
+  }
+  return { success: true };
 };
 
 export default function MyPage() {
@@ -88,6 +92,7 @@ const resendWaitlist = new ResendWaitlist(waitlistOptions);
 export async function yourServerSideAction(email: string, fullName?: string) {
   // If ratelimiting, get the client IP
   const headersList = headers();
+  // const headersList = await headers(); // <-- or for Next.JS 15+
   const ip =
     headersList.get("x-forwarded-for")?.split(",")[0] ||
     headersList.get("x-real-ip") ||
@@ -102,7 +107,19 @@ export async function yourServerSideAction(email: string, fullName?: string) {
 }
 ```
 
-## Props
+3. Create an `.env.local` file
+
+```
+# Required
+RESEND_API_KEY=re_...
+RESEND_AUDIENCE_ID=...
+# Optional
+RESEND_RATELIMIT_UPSTASH_URL=...
+RESEND_RATELIMIT_UPSTASH_TOKEN=...
+RESEND_RATELIMIT_SUBMISSIONS_PER_MINUTE=5
+```
+
+## Waitlist Component Props
 
 | Prop             | Type                                          | Default                                | Description                                                                                                     |
 | ---------------- | --------------------------------------------- | -------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
