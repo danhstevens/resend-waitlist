@@ -33,8 +33,7 @@ export class ResendWaitlist {
 
   async addToWaitlist(email: string, fullName?: string) {
     if (this.rateLimiter) {
-      const identifier = "api";
-      const { success, limit, remaining, pending } = await this.rateLimiter.limit(identifier);
+      const { success, limit, remaining, pending } = await this.rateLimiter.limit("waitlist");
       if (!success) {
         throw new Error(`Woah, slow down there buddy! Rate limit exceeded.`);
       }

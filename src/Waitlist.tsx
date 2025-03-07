@@ -98,12 +98,7 @@ const Waitlist: React.FC<WaitlistProps> = ({
 
   if (success) {
     return (
-      <div
-        className={`
-          ${isDark ? "bg-zinc-900 text-zinc-100" : "bg-white text-gray-800"}
-          p-6 rounded-md shadow-md max-w-sm mx-auto
-        `}
-      >
+      <div className="p-6 rounded-md shadow-md max-w-md min-w-[24rem] mx-auto w-full">
         <div className="flex flex-col items-center text-center">
           {/* Success icon */}
           <svg
@@ -124,7 +119,7 @@ const Waitlist: React.FC<WaitlistProps> = ({
             <path d="M11 13c1.93 1.93 2.83 4.17 2 5-.83.83-3.07-.07-5-2-1.93-1.93-2.83-4.17-2-5 .83-.83 3.07.07 5 2Z" />
           </svg>
           <h2
-            className="text-xl font-bold mb-2"
+            className="text-4xl font-bold mb-2"
             style={
               titleColor && titleColor.includes("gradient")
                 ? {
@@ -148,10 +143,7 @@ const Waitlist: React.FC<WaitlistProps> = ({
 
   return (
     <form
-      className={`
-        ${isDark ? "bg-zinc-900 text-zinc-100" : "bg-white text-gray-800"}
-        p-6 rounded-md shadow-md max-w-sm mx-auto
-      `}
+      className="p-6 max-w-md min-w-[24rem] mx-auto w-full"
       onSubmit={(e) => {
         e.preventDefault();
         if (!buttonDisabled) {
@@ -161,7 +153,7 @@ const Waitlist: React.FC<WaitlistProps> = ({
     >
       {/* Title */}
       <h2
-        className="text-center text-3xl font-medium mb-2"
+        className="text-center text-4xl font-medium mb-2"
         style={
           titleColor && titleColor.includes("gradient")
             ? {
