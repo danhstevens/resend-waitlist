@@ -11,15 +11,9 @@ A standalone React component to collect waitlist signups with the [Resend API](h
 
 ---
 
-## Table of Contents
+![image](https://github.com/user-attachments/assets/10431970-fe3a-48d0-b8d3-ca5f7c480dee)
 
-- [Installation](#installation)
-- [Usage](#usage)
-- [Props](#props)
-- [Configuration](#configuration)
-- [License](#license)
-
----
+### Live Demo: https://resend-waitlist-demo.vercel.app/
 
 ## Installation
 
@@ -30,6 +24,11 @@ yarn add https://github.com/danhstevens/resend-waitlist.git
 # or
 pnpm add https://github.com/danhstevens/resend-waitlist.git
 ```
+## Sign Up for Resend & Get Your API Credentials
+
+- Sign up for [Resend](https://resend.com/).
+- Retrieve your API key (e.g. re_abc123).
+- Retrieve your [Audience ID](https://resend.com/audiences)
 
 ## Usage
 
@@ -86,11 +85,11 @@ const resendWaitlist = new ResendWaitlist(waitlistOptions);
 
 export async function yourServerSideAction(email: string, fullName?: string) {
   const result = await resendWaitlist.addToWaitlist(email, fullName);
-  if (result.error) {
-    throw new Error(result.error.message);
+  if (!result.success) {
+    return { success: false, error: result.error };
   }
 
-  return { status: 200, body: "Success" };
+  return { success: true }
 }
 ```
 
@@ -106,13 +105,7 @@ export async function yourServerSideAction(email: string, fullName?: string) {
 | successTitle     | string                | "You've been added to the waitlist!"   | Headline text shown after successful submission.                                                                |
 | successSubtitle  | string                | "We'll let you know when we're ready." | Subtext shown after successful submission.                                                                      |
 | rejectDisposable | boolean               | true                                   | Whether to reject disposable email domains (ex: mailinator.com)                                                 |
-| onSubmit         | Promise<void> \| void | void                                   | Function to call on valid submit event                                                                          |
-
-## Resend API
-
-- Sign up for [Resend](https://resend.com/).
-- Retrieve your API key (e.g. re_abc123).
-- Retrieve your [Audience ID](https://resend.com/audiences)
+| onSubmit         | Promise<{ success: boolean; error?: string; } | -                                   | Function to call on valid submit event                                                                          |
 
 ## License
 
