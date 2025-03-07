@@ -24,6 +24,7 @@ yarn add https://github.com/danhstevens/resend-waitlist.git
 # or
 pnpm add https://github.com/danhstevens/resend-waitlist.git
 ```
+
 ## Sign Up for Resend & Get Your API Credentials
 
 - Sign up for [Resend](https://resend.com/).
@@ -70,6 +71,7 @@ export default function MyPage() {
 ```tsx
 // Note: This is a Next.JS App Router Example
 "use server";
+import { headers } from "next/headers";
 import { ResendWaitlist } from "resend-waitlist/server";
 
 const waitlistOptions = {
@@ -84,28 +86,35 @@ const waitlistOptions = {
 const resendWaitlist = new ResendWaitlist(waitlistOptions);
 
 export async function yourServerSideAction(email: string, fullName?: string) {
-  const result = await resendWaitlist.addToWaitlist(email, fullName);
+  // If ratelimiting, get the client IP
+  const headersList = headers();
+  const ip =
+    headersList.get("x-forwarded-for")?.split(",")[0] ||
+    headersList.get("x-real-ip") ||
+    "unknown";
+
+  const result = await resendWaitlist.addToWaitlist(email, fullName, ip);
   if (!result.success) {
     return { success: false, error: result.error };
   }
 
-  return { success: true }
+  return { success: true };
 }
 ```
 
 ## Props
 
-| Prop             | Type                  | Default                                | Description                                                                                                     |
-| ---------------- | --------------------- | -------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
-| mode             | 'light' \| 'dark'     | 'light'                                | Switches light or dark color scheme.                                                                            |
-| title            | string                | 'Join our waitlist!'                   | Form heading text.                                                                                              |
-| subtitle         | string                | undefined                              | Text below the title                                                                                            |
-| titleColor       | string                | inherited                              | CSS color or gradient. If it’s a gradient, the text will be clipped accordingly (.e.g. "linear-gradient(...)".) |
-| showNameField    | boolean               | true                                   | Whether to show the “Full Name” input.                                                                          |
-| successTitle     | string                | "You've been added to the waitlist!"   | Headline text shown after successful submission.                                                                |
-| successSubtitle  | string                | "We'll let you know when we're ready." | Subtext shown after successful submission.                                                                      |
-| rejectDisposable | boolean               | true                                   | Whether to reject disposable email domains (ex: mailinator.com)                                                 |
-| onSubmit         | Promise<{ success: boolean; error?: string; } | -                                   | Function to call on valid submit event                                                                          |
+| Prop             | Type                                          | Default                                | Description                                                                                                     |
+| ---------------- | --------------------------------------------- | -------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| mode             | 'light' \| 'dark'                             | 'light'                                | Switches light or dark color scheme.                                                                            |
+| title            | string                                        | 'Join our waitlist!'                   | Form heading text.                                                                                              |
+| subtitle         | string                                        | undefined                              | Text below the title                                                                                            |
+| titleColor       | string                                        | inherited                              | CSS color or gradient. If it’s a gradient, the text will be clipped accordingly (.e.g. "linear-gradient(...)".) |
+| showNameField    | boolean                                       | true                                   | Whether to show the “Full Name” input.                                                                          |
+| successTitle     | string                                        | "You've been added to the waitlist!"   | Headline text shown after successful submission.                                                                |
+| successSubtitle  | string                                        | "We'll let you know when we're ready." | Subtext shown after successful submission.                                                                      |
+| rejectDisposable | boolean                                       | true                                   | Whether to reject disposable email domains (ex: mailinator.com)                                                 |
+| onSubmit         | Promise<{ success: boolean; error?: string; } | -                                      | Function to call on valid submit event                                                                          |
 
 ## License
 
